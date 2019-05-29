@@ -1,0 +1,13 @@
+<!--pages/banner/banner.wxml-->
+<view class='wrap'>
+  <image src="{{arr.imgs}}" class='big'></image>
+  <text class='center' bindtap='goshopping'>购买</text>
+  <view class='title'>{{arr.item}} <view class='price'>￥{{arr.price}}</view></view>
+  <view class='detail'>{{arr.detail}}</view>
+  
+  <view class='small'>
+    <block wx:for="{{arr.img}}" wx:key="index">
+    <image src='{{item}}'></image>
+  </block>
+  </view>
+</view> 

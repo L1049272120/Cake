@@ -1,0 +1,9 @@
+<view class='wrap'>
+    <image src='{{logs.img}}'></image>
+    <view class='item'>{{logs.item}}</view>
+    <view class='price'>￥{{logs.price}}</view>
+    <view class='detail'>{{logs.detail}}</view>
+    <view class='section'>{{logs.section}}</view>
+    <button bindtap='shopping'>收进我的胃</button>
+    <view class='GO' bindtap='goShopping'>购物车</view>
+</view>

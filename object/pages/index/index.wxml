@@ -1,0 +1,34 @@
+<!--index.wxml-->
+<view class='con'>
+<view class='banner'>
+    <swiper indicator-dots="true" autoplay="true" interval="3000" duration="300" indicator-color="#ccc" indicator-active-color="black">
+    <block wx:for="{{imgUrls}}" wx:key="index">
+      <swiper-item>
+        <image src="{{item.imgs}}" class="slide-image" width="355" height="150"  bindtap='linkBanner' data-child='{{item.imgs}}'/>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view class='shopping' bindtap='shopping'>购物车</view>
+  <view class='wrap'>
+    <view class='titleWrap'>
+      <view class='title'>专属于你的青梅竹马</view>
+    </view>
+          <view wx:for="{{itemArr}}" wx:key="index" class='content' >
+          <image src="{{item.img}}" width="355" height="150" />
+            <view bindtap='linkDetail' data-child='{{item.item}}'>{{item.item}}----{{item.price}}</view>
+          </view>
+             <view class="br"></view>
+    <view class='titleWrap'>
+      <view class='title'>专属于你的天鹅❤</view>
+    </view>
+          <view wx:for="{{colorArr}}" wx:key="index" class='content' >
+          <image src="{{item.img}}" width="355" height="150" />
+            <view bindtap='linkDetail' data-child='{{item.item}}'>{{item.item}}----{{item.price}}</view>
+          </view>
+  </view>
+
+<view style='display:none'>
+<audio poster="{{poster}}" name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls loop></audio>
+</view>
+</view>

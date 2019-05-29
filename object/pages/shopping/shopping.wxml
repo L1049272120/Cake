@@ -1,0 +1,21 @@
+<!--pages/shopping/shopping.wxml-->
+<view class='wrap'>
+  <view class='head'>购物车</view>
+  <view wx:if="{{arr!=[]}}" class='smallWrap'>
+    <block wx:for="{{arr}}" wx:key="index">
+      <view class='item'>
+        <view style='font-size:30rpx'>{{item.item}}</view>
+        <view>￥{{item.price}}</view>
+        <view>
+          <text bindtap='add' data-child='-' data-title='{{item.item}}'>-</text>
+          <text>{{item.count}}</text>
+          <text bindtap='add' data-child='+' data-title='{{item.item}}'>+</text>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view wx:else class='container'>
+  购物车为空</view>
+    <view class='total'>总价:￥{{total}}</view>
+    <view class='shopping' bindtap='home'>回到主页</view>
+</view>
