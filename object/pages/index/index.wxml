@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class='con'>
+<view class="CAI {{menuFixed ? 'fixed': ''}}" id="affix">Welcome to YOU</view>
 <view class='banner'>
     <swiper indicator-dots="true" autoplay="true" interval="3000" duration="300" indicator-color="#ccc" indicator-active-color="black">
     <block wx:for="{{imgUrls}}" wx:key="index">
@@ -13,6 +14,21 @@
   <view class='wrap'>
     <view class='titleWrap'>
       <view class='title'>专属于你的青梅竹马</view>
+      <view class='search' catchtap='search'>您最爱的可以在此搜索</view>
+            <view class='searchWrap' style="display:{{flag?'block':'none'}}">
+                <view class='searchContent'>
+                  <view class='header'>
+                  <input placeholder='请输入您的选择' bindinput='getInput'></input>
+                  <button catchtap='getPrice'>搜索</button>
+                  </view>
+                  <view class='container_search' style='position:relative'>
+                    <block wx:for="{{searchArr[0]}}" wx:key="index" >
+                        <view class='list' bindtap='linkPage' data-child='{{item.item}}'>{{item.item}}---{{item.price}}</view>
+                    </block>
+                    <button style='position:absolute;bottom:0;right:0' bindtap='close'>关闭</button>
+                  </view>
+                </view>
+            </view>
     </view>
           <view wx:for="{{itemArr}}" wx:key="index" class='content' >
           <image src="{{item.img}}" width="355" height="150" />

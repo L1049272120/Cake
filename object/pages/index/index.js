@@ -49,6 +49,7 @@ Page({
         ]
       } 
     ],
+    flag:false,
     itemArr: [
       {
         img: "http://www.wfboy.com/themes/default/imagesnew/19/20190523xpc.jpg",
@@ -211,12 +212,25 @@ Page({
         detail: "欧洲天然淡奶油、云南玫瑰、法国树莓果溶、韩国幼砂糖、荔枝酒、法国葡萄糖浆、果冻、法国依索玛特糖",
         section: "冷藏保存2-7摄氏度"
       }
-    ]
+    ],
+    searchArr:[],
+    inputValue:"",
+    allArr:[]
   },
   linkBanner:function(e){
     let bannerArr=this.data.imgUrls.find((item) => item.imgs == e.target.dataset.child)
     wx.navigateTo({
       url: '/pages/banner/banner?data=' + JSON.stringify(bannerArr.child),
+    })
+  },
+  search:function(){
+    this.setData({
+      flag:true
+    })
+  },
+  close:function(){
+    this.setData({
+      flag: false
     })
   },
   //事件处理函数
@@ -225,33 +239,14 @@ Page({
       url: '../logs/logs'
     })
   },
+  onPullDownRefresh: function () {
+    console.log("下拉刷新");
+  },
+  onReachBottom: function () {
+    console.log("上拉加载");
+  },
   onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
+  
   },
   linkDetail:function(e){
     let child=e.target.dataset.child
@@ -265,6 +260,31 @@ Page({
       url: '/pages/shopping/shopping',
     })
   },
+  getPrice:function(e){
+    this.data.allArr=this.data.itemArr.concat(this.data.colorArr);
+    let price=this.data.inputValue;
+    console.log(price);
+    let newArr=[];
+    let colorArr=[]
+    newArr.push(this.data.allArr.filter((item) => {
+          return item.item.includes(price) 
+         }
+      ));
+    this.setData({
+      searchArr:newArr
+    })
+  },
+  linkPage:function(e){
+    let single=this.data.allArr.find((item) => item.item == e.target.dataset.child)
+    wx.navigateTo({
+    url: '/pages/logs/logs?data=' + JSON.stringify(single),
+    })
+  },
+  getInput:function(e){
+    this.setData({
+      inputValue:e.detail.value
+    })
+  },
   onReady:function(e){
     this.audioCtx = wx.createAudioContext('myAudio')
     // this.audioCtx.play()
@@ -275,7 +295,34 @@ Page({
   audioPause() {
     this.audioCtx.pause()
   },
-  
+
+
+  //==================================================
+  onShow:function(){
+    var that = this;
+    var query = wx.createSelectorQuery()//创建节点查询器 query
+    query.select('#affix').boundingClientRect()//这段代码的意思是选择Id= the - id的节点，获取节点位置信息的查询请求
+    query.selectViewport().scrollOffset()
+    query.exec(function (res) {
+      console.log(res[0].top); // #affix节点的上边界坐
+      that.setData({
+        menuTop: res[0].top
+      })
+    });
+  },
+  onPageScroll: function (e) {
+    var that = this;
+    // 3.当页面滚动距离scrollTop > menuTop菜单栏距离文档顶部的距离时，菜单栏固定定位
+    if (e.scrollTop > that.data.menuTop) {
+      that.setData({
+        menuFixed: true
+      })
+    } else {
+      that.setData({
+        menuFixed: false
+      })}
+  },
+  //=======================================
   getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo

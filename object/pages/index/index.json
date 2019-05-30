@@ -1,4 +1,6 @@
 {
+  "backgroundTextStyle":"dark",
+  "enablePullDownRefresh":true,
   "navigationBarTitleText": "青梅竹馬",
   "usingComponents": {}
 }
